@@ -1,0 +1,8 @@
+{
+  "base_url": "https://facitec.requestcatcher.com",
+  "url_consulta": "/lecturas/ultima",
+  "url_envio": "/lecturas/guardar",
+  "dispositivo_id": "uuid-del-dispositivo",
+  "intervalo_actualizacion": 1,
+  "dias_retencion_local": 30
+}
