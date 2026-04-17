@@ -2,33 +2,33 @@
 
 # Prototipo de dispositivo de captura de datos para monitoreo de calidad del agua
 
-## 1. Título y descripción general
-
 Este proyecto contiene el código fuente para el dispositivo de captura de datos de parámetros de calidad de agua para un sistema de monitoreo de la calidad del agua de ríos, enmarcado en el proyecto de investigación [**PINV01-267**](https://sca.facitec.edu.py/proyecto), financiado por el **CONACYT** de Paraguay a través de la **FACITEC - UNICAN**.
 
 ### Estructura del proyecto
+
 ```text
- ├──  app.py                # Orquestador principal del sistema
- ├──  app.service           # Archivo de configuración para el servicio systemd
- ├──  conf_service.py       # Servicio de gestión de configuración local (JSON)
- ├──  config.json           # Parámetros de configuración (URLs, IDs, intervalos)
- ├──  db_service.py         # Gestión de base de datos SQLite, mantenimiento y limpieza
- ├──  logs_service.py       # Configuración del sistema de logging rotativo
- ├── 󰂺 README.md             # Documentación técnica del proyecto
- ├── 󰂺 LICENSE.md            # Licencia del proyecto
- ├──  requirements.txt      # Dependencias del proyecto
- ├──  sensor_service.py     # Lógica de comunicación serial y captura de sensores
- └──  sync_service.py       # Orquestador de sincronización y envío de datos
-````
+ ├── app.py                # Orquestador principal del sistema
+ ├── app.service           # Archivo de configuración para el servicio systemd
+ ├── conf_service.py       # Servicio de gestión de configuración local (JSON)
+ ├── config.json           # Parámetros de configuración (URLs, IDs, intervalos)
+ ├── db_service.py         # Gestión de base de datos SQLite, mantenimiento y limpieza
+ ├── logs_service.py       # Configuración del sistema de logging rotativo
+ ├── README.md             # Documentación técnica del proyecto
+ ├── LICENSE.md            # Licencia del proyecto
+ ├── requirements.txt      # Dependencias del proyecto
+ ├── sensor_service.py     # Lógica de comunicación serial y captura de sensores
+ └── sync_service.py       # Orquestador de sincronización y envío de datos
+```
 
 -----
 
 ## 2. Arquitectura del software
 
 ### Flujo general de datos
+
 Este diagrama describe el trayecto de la información desde el entorno físico hasta el almacenamiento centralizado.
 
-`````mermaid
+```mermaid
 graph LR
     subgraph "Entorno Físico"
         A[Sensores]
@@ -50,7 +50,6 @@ graph LR
     B -- "Puerto Serial (USB)" --> C
     C -- "Protocolo HTTP (JSON)" --> D
 ```
-
 
 ### Componentes de software
 
