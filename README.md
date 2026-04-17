@@ -22,7 +22,7 @@ Este proyecto contiene el código fuente para el dispositivo de captura de datos
 
 -----
 
-## 2. Arquitectura del software
+## Arquitectura del software
 
 ### Flujo general de datos
 
@@ -90,11 +90,11 @@ graph TD
 
 -----
 
-## 3. Requisitos de hardware
+## Requisitos de hardware
 
 El prototipo se integra mediante los siguientes componentes:
 
-  * **Cerebro:** Raspberry Pi 4 Model B (o similar).
+  * **Orquestador:** Raspberry Pi 4 Model B (o similar).
   * **Controlador de sensores:** Arduino Nano / Uno.
   * **Sensores integrados:**
       * Oxígeno disuelto (OD).
@@ -107,7 +107,7 @@ El prototipo se integra mediante los siguientes componentes:
 
 -----
 
-## 4. Requisitos de software y dependencias
+## Requisitos de software y dependencias
 
 | Software / Librería | Descripción |
 | :--- | :--- |
@@ -119,11 +119,11 @@ El prototipo se integra mediante los siguientes componentes:
 
 -----
 
-## 5. Instalación y configuración
+## Instalación y configuración
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [url-del-repositorio]
+    git clone https://github.com/FACITEC-INV/prototipo_raspberry.git
     cd prototipo_raspberry
     ```
 2.  **Configurar el entorno virtual:**
@@ -140,7 +140,7 @@ El prototipo se integra mediante los siguientes componentes:
 
 -----
 
-## 6. Gestión de ejecución (Systemd)
+## Gestión de ejecución (Systemd)
 
 Para garantizar que el SCA inicie automáticamente al encender la Raspberry Pi:
 
@@ -161,7 +161,7 @@ Para garantizar que el SCA inicie automáticamente al encender la Raspberry Pi:
 
 -----
 
-## 7. Estructura de datos (Base de datos)
+## Estructura de datos (Base de datos)
 
 El sistema utiliza **UUID** como clave primaria para garantizar la unicidad de los registros entre múltiples dispositivos durante la sincronización global.
 
@@ -181,7 +181,7 @@ El sistema utiliza **UUID** como clave primaria para garantizar la unicidad de l
 
 -----
 
-## 8\. Manejo de errores y resiliencia
+## Manejo de errores y resiliencia
 
 El SCA implementa un diseño **Self-healing** (auto-recuperable):
 
@@ -190,7 +190,7 @@ El SCA implementa un diseño **Self-healing** (auto-recuperable):
 
 -----
 
-## 9\. Autores y contacto
+## Autores y contacto
 
   * **Investigador principal:** Daniel Romero
   * **Director del proyecto:** Rodrigo Martínez
