@@ -1,0 +1,12 @@
+[Unit]
+Description=Sistema de calidad de agua.
+After=network.target
+
+[Service]
+User=inv
+WorkingDirectory=/home/inv/prototipo_raspberry
+ExecStart=/home/inv/prototipo_raspberry/env/bin/python app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

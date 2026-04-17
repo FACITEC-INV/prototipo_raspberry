@@ -1,8 +1,9 @@
 {
-  "base_url": "https://facitec.requestcatcher.com",
-  "url_consulta": "/lecturas/ultima",
-  "url_envio": "/lecturas/guardar",
-  "dispositivo_id": "uuid-del-dispositivo",
-  "intervalo_actualizacion": 1,
-  "dias_retencion_local": 30
+    "base_url": "http://192.168.0.243:8080/api",
+    "url_consulta": "/sync",
+    "url_envio": "/lecturas/add",
+    "dispositivo_id": "22f8dbe0-9324-4798-b3b3-38ccdf200d2d",
+    "intervalo_actualizacion_min": 1,
+    "dias_retencion_local": 30,
+    "intervalo_lectura_seg": 5
 }
