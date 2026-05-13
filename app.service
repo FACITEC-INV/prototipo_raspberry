@@ -6,7 +6,8 @@ After=network.target
 User=inv
 WorkingDirectory=/home/inv/prototipo_raspberry
 ExecStart=/home/inv/prototipo_raspberry/env/bin/python app.py
-Restart=always
+Restart=on-failure
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target

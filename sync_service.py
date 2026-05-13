@@ -47,7 +47,7 @@ def obtener_info_sincronizacion(base_url, url_consulta, dispositivo_id):
     """
     try:
         url = f"{base_url}{url_consulta}/{dispositivo_id}"
-        response = requests.get(url, timeout=(10, 20))
+        response = requests.get(url, timeout=(10, 10))
         response.raise_for_status()               # Lanza error si status!=200
         data = response.json()
 

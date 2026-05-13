@@ -8,7 +8,7 @@ from logs_service import log
 
 
 running = False
-MIN_INTERVALO_SEG = 5
+MIN_INTERVALO_SEG = 5   # El valor mínimo para el intervalo de lectura
 hilo_sensores = None
 
 # ------------------------------------------------------------------------------

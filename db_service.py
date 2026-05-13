@@ -49,6 +49,7 @@ def init_db():
         db.create_tables([Lectura], safe=True)
         log.info("[DBSERVICE] Base de datos iniciada.")
 
+
 def guardar_lectura(data):
     """
     Persiste una nueva lectura de sensores en la base de datos local.
@@ -90,6 +91,7 @@ def actualizar_enviados(lista_ids):
             log.error(f"[DBSERVICE] Error al actualizar los registros: {e}")
             return 0
 
+
 def obtener_pendientes():
     """ 
     Obtiene todas las lecturas con estado is_send False. 
@@ -114,6 +116,7 @@ def obtener_pendientes():
             log.error(f"[DBSERVICE] Error al recuperar pendientes: {e}")
             return []
 
+
 def eliminar_lecturas_antiguas(dias=30):
     """
     Realiza la limpieza de registros antiguos para optimizar espacio en disco.
@@ -133,6 +136,24 @@ def eliminar_lecturas_antiguas(dias=30):
 
     except Exception as e:
         log.error(f"[DBSERVICE] Error al eliminar registros antiguos.")
+
+
+def obtener_fecha_ultimo_registro():
+    """
+    Recupera la fecha del registro más reciente.
+    
+    Returns:
+        datetime: El timestamp de la última lectura o None si no hay registros.
+    """
+    with db:
+        try:
+            return (Lectura.select(Lectura.timestamp)
+                    .order_by(Lectura.timestamp.desc())
+                    .scalar())
+        except Exception as e:
+            log.error(f"[DBSERVICE] Error al obtener último timestamp: {e}")
+            return None
+
 
 # ------------------------------------------------------------------------------
 # SECCIÓN: HILO DE MANTENIMIENTO
@@ -163,10 +184,12 @@ def _tarea_mantenimiento():
     _mantenimiento_timer.daemon = True
     _mantenimiento_timer.start()
 
+
 def iniciar_mantenimiento():
     """Inicializa el hilo de mantenimiento de la base de datos."""
     log.info("[DBSERVICE] Servicio de mantenimiento iniciado.")
     _tarea_mantenimiento()
+
 
 def detener_mantenimiento():
     """
