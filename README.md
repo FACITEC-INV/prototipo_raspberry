@@ -141,22 +141,35 @@ pip install -r requirements.txt
 
 ```
 
-3. **Configuración (`config.json`):**
-Ajustar los parámetros según el servidor de destino y los umbrales físicos del nodo:
+3.  **Configuración (`config.json`):**
+    Ajustar los parámetros según el servidor de destino y los umbrales físicos del nodo:
 
 ```json
 {
   "device_name": "nodo-rio-piratiy",
-  "base_url": "http://192.168.0.243:8080/api",
+  "base_url": "[http://192.168.0.243:8080/api](http://192.168.0.243:8080/api)",
+  "url_consulta": "/sync",
+  "url_envio": "/lecturas/add",
   "dispositivo_id": "22f8dbe0-9324-4798-b3b3-38ccdf200d2d",
-  "intervalo_lectura_seg": 300,
+  "intervalo_actualizacion_min": 10,
+  "dias_retencion_local": 30,
+  "intervalo_lectura_seg": 180,
   "health_monitor_config": {
-    "endpoint": "/dispositivos/status",
-    "inspection_interval_seg": 30,
-    "temp": { "limits": { "warning": 60, "critical": 75 } },
-    "disk": { "limits": { "warning": 10, "critical": 5 } },
-    "power": { "fast_mode_interval_seg": 10 },
-    "arduino": { "limits": { "warning": 400, "critical": 800 } }
+    "endpoint": "/sync/status",
+    "temp": {
+      "limits": { "warning": 60, "critical": 75 }
+    },
+    "disk": {
+      "limits": { "warning": 10, "critical": 5 }
+    },
+    "power": {
+      "fast_mode_interval_seg": 40
+    },
+    "arduino": {
+      "limits": { "warning": 600, "critical": 900 },
+      "comment": "Limites: tiempo en segundos del ultimo registro en DB"
+    },
+    "inspection_interval_seg": 900
   }
 }
 ```
