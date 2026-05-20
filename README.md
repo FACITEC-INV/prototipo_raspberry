@@ -234,4 +234,4 @@ El SCA implementa un diseño **Self-healing** (auto-recuperable) y enfocado en l
 
 ## Licencia
 
-Este proyecto está licenciado bajo los términos de la **Licencia Pública General de GNU v3.0**. Consulta el archivo [LICENSE.md](https://www.google.com/search?q=./LICENSE.md) para más detalles.
+Este proyecto está licenciado bajo los términos de la **Licencia Pública General de GNU v3.0**. Consulta el archivo [LICENSE.md](./LICENSE.md) para más detalles.
