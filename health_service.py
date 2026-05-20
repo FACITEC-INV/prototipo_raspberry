@@ -287,8 +287,8 @@ def _core_loop(call_detener_sistema):
     hconfig = config.get("health_monitor_config")
     g_interval = hconfig["inspection_interval_seg"]
     p_fast_interval = hconfig["power"]["fast_mode_interval_seg"]
-    g_next = time.time() + 30       # espera 30s para iniciar
-    p_next = time.time() + 30
+    g_next = time.time() + 10       # espera 10s para iniciar
+    p_next = time.time() + 10
     while _isRunning:
         now = time.time()
         if now >= g_next or now >= p_next:
