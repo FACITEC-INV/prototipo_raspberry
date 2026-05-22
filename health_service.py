@@ -70,14 +70,14 @@ def _temperature_diagnose(limits):
         else:
             raise Exception(f"Error al leer la temperatura del sistema")
         if temperature >= limits["critical"]:
-            return _resolved(Status.CRITICAL, temperature, "Temperatura CRÍTICA")
+            return _resolved(Status.CRITICAL, f"{round(temperature, 1)} °C", "Temperatura CRÍTICA")
         elif temperature >= limits["warning"]:
-            return _resolved(Status.WARNING, temperature, "Temperatura WARNING")
+            return _resolved(Status.WARNING, f"{round(temperature, 1)} °C", "Temperatura WARNING")
         else:
-            return _resolved(Status.OK, temperature, "Temperatura OK")
+            return _resolved(Status.OK, f"{round(temperature, 1)} °C", "Temperatura OK")
     except Exception as e:
         log.error(f"[HEALTH] Error en _temperature_diagnose. {e}")
-        return _resolved(Status.ERROR, 0, f"{e}")
+        return _resolved(Status.ERROR, "---", f"{e}")
 
 
 ## Espacio del SD ##
@@ -99,14 +99,14 @@ def _disk_diagnose(limits):
         bavail = stat.f_bavail
         free = (frsize * bavail) / (1024 ** 3) # GB
         if free <= limits["critical"]:
-            return _resolved(Status.CRITICAL, round(free, 1), "Espacio CRÍTICO")
+            return _resolved(Status.CRITICAL, f"{round(free, 1)} GB", "Espacio CRÍTICO")
         elif free <= limits["warning"]:
-            return _resolved(Status.WARNING, round(free, 1), "Espacio WARNING")
+            return _resolved(Status.WARNING, f"{round(free, 1)} GB", "Espacio WARNING")
         else:
-            return _resolved(Status.OK, round(free, 1), "Espacio OK")
+            return _resolved(Status.OK, f"{round(free, 1)} GB", "Espacio OK")
     except Exception as e:
         log.error(f"[HEALTH] Error en _power_diagnose. {e}")
-        return _resolved(Status.ERROR, 0, f"{e}")
+        return _resolved(Status.ERROR, "---", f"{e}")
 
 
 ## Energía ##
@@ -178,7 +178,7 @@ def _power_diagnose_controller():
         return _resolved(Status.WARNING, hex_val, "Energía WARNING-(Verificando)")
     except Exception as e:
         log.error(f"[HEALTH] Error en _power_diagnose_controller. {e}")
-        return _resolved(Status.ERROR, 0, f"{e}")
+        return _resolved(Status.ERROR, "---", f"{e}")
 
 
 ## Arduino ##
@@ -201,13 +201,13 @@ def _arduino_diagnose(limits):
         limit_warning = limits["warning"]
         diff = time.time() - lastRec.timestamp() 
         if diff > limit_critical:
-            return _resolved(Status.CRITICAL, diff, "Arduino CRITICO")
+            return _resolved(Status.CRITICAL, f"{int(diff)} seg", "Arduino CRITICO")
         if diff > limit_warning:
-            return _resolved(Status.WARNING, diff, "Arduino WARNING")
-        return _resolved(Status.OK, diff, "Arduino OK")
+            return _resolved(Status.WARNING, f"{int(diff)} seg", "Arduino WARNING")
+        return _resolved(Status.OK, f"{int(diff)} seg", "Arduino OK")
     except Exception as e:
         log.error(f"[HEALTH] Error en _arduino_diagnose. {e}")
-        return _resolved(Status.ERROR, 0, f"{e}")
+        return _resolved(Status.ERROR, "---", f"{e}")
 
 
 # ------------------------------------------------------------------------------
@@ -226,8 +226,9 @@ def verify_diagnostic_results(config, call_detener_sistema):
     Returns:
         Status.CRITICAL si hubo falla grave, de lo contrario Status.OK.
     """
+    global power_is_fast_mode, power_fails_counter
     hconfig = config["health_monitor_config"]
-    url = f"{config["base_url"]}{hconfig["endpoint"]}"
+    url = f"{config['base_url']}{hconfig['endpoint']}"
     reporte = {
         "dispositivo_id": config.get("dispositivo_id"),
         "diagnostico": {
@@ -240,7 +241,10 @@ def verify_diagnostic_results(config, call_detener_sistema):
     diag = reporte["diagnostico"]
     criticos = ["temp", "disk", "power"]
     hay_criticos = any(diag[k]["status"] in [Status.CRITICAL, Status.ERROR] for k in criticos)
-    notify_status(reporte, url)
+    if not power_is_fast_mode or hay_criticos:
+        notify_status(reporte, url)
+    elif power_is_fast_mode and power_fails_counter in [3,7]:
+        notify_status(reporte, url)
     if hay_criticos:
         log.critical(f"[HEALTH] Cierre de emergencia: {diag}")
         call_detener_sistema()
@@ -287,8 +291,8 @@ def _core_loop(call_detener_sistema):
     hconfig = config.get("health_monitor_config")
     g_interval = hconfig["inspection_interval_seg"]
     p_fast_interval = hconfig["power"]["fast_mode_interval_seg"]
-    g_next = time.time() + 10       # espera 10s para iniciar
-    p_next = time.time() + 10
+    g_next = time.time() + 15       # espera 15s para iniciar
+    p_next = time.time() + 15
     while _isRunning:
         now = time.time()
         if now >= g_next or now >= p_next:
